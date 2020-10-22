@@ -3,7 +3,7 @@
  * User: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.1.0
+ * Versions: 1.1.1
  * Github: https://github.com/hyue418
  */
 
@@ -26,9 +26,12 @@ function run() {
     var taskList = ['去浏览', '去搜索', '领取奖励', '去完成'];
     log("淘宝双11超级星秀猫脚本");
     log("Powered By Hyue418");
-    launch("com.taobao.taobao");
+    app.startActivity({
+        action: "VIEW",
+        data: "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index"
+    })
+    log("进入活动页面");
     randomSleep(1000 * speed);
-    toastLog("请手动进入活动页面")
     className("android.widget.Button").text("赚喵币").waitFor()
     randomSleep(1000);
     if (!textContains("累计任务奖励").exists()) {
