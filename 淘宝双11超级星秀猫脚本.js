@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.3.0
+ * Versions: 1.3.1
  * Github: https://github.com/hyue418
  */
 
@@ -18,7 +18,7 @@ width = device.width;
 setScreenMetrics(width, height);
 swipeTips = "滑啊滑啊滑啊滑";
 
-alert("【双11超级星秀猫脚本 v1.3.0】\n\n请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\nPowered By Hyue418");
+alert("【双11超级星秀猫脚本 v1.3.1】\n\n请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\nPowered By Hyue418");
 log("淘宝双11超级星秀猫脚本");
 log("Powered By Hyue418");
 log("Github: https://github.com/hyue418");
