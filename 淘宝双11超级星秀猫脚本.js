@@ -3,12 +3,12 @@
  * User: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.1.1
+ * Versions: 1.2.0
  * Github: https://github.com/hyue418
  */
 
 "auto";
-
+alert("请确保使用淘宝V9.5版本\n高版本有进程检测会被制裁，奖励极低\n\nPowered By Hyue418");
 console.show();
 height = device.height;
 width = device.width;
@@ -56,7 +56,7 @@ function run() {
             switch (task) {
                 case '去搜索':
                 case '去完成':
-                    log("开始" + task + "任务")
+                    log("开始【" + task + "】任务")
                     clickButton(button);
                     randomSleep(1500 * speed);
                     if (textContains("复制链接").exists()) {
@@ -65,6 +65,13 @@ function run() {
                         i++;
                         back();
                         sleep(200);
+                        back();
+                        break;
+                    }
+                    if (textContains("淘宝特价版送红包").exists()) {
+                        log("跳过打开APP任务");
+                        j++;
+                        i++;
                         back();
                         break;
                     }
@@ -78,6 +85,7 @@ function run() {
                     back();
                     break;
                 case '去浏览':
+                    log("开始【" + task + "】任务")
                     randomSleep(500 * speed);
                     clickButton(button);
                     randomSleep(1500 * speed);
