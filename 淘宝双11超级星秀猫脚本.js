@@ -1,37 +1,55 @@
 /**
- * Created by Visual Studio Code
- * User: Hyue418
+ * 双十一超级星秀猫脚本
+ * 支持淘宝+支付宝任务自动执行
+ * 
+ * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.2.1
+ * Versions: 1.3.0
  * Github: https://github.com/hyue418
  */
 
 "auto";
-alert("请确保使用淘宝V9.5版本\n高版本有进程检测会被制裁，奖励极低\n\nPowered By Hyue418");
 console.show();
 speed = 1;
 float = 1.25;
-swipeTips = "滑啊滑啊滑啊滑";
 height = device.height;
 width = device.width;
 setScreenMetrics(width, height);
-run();
+swipeTips = "滑啊滑啊滑啊滑";
+
+log("淘宝双11超级星秀猫脚本");
+log("Powered By Hyue418");
+log("Github: https://github.com/hyue418");
+log("=================== ");
+
+//执行淘宝任务
+taskList = ['去浏览', '去搜索', '领取奖励', '去完成'];
+activityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
+run("淘宝", activityData, taskList);
+
+//执行支付宝任务
+taskList = ['逛一逛'];
+activityData = "alipays://platformapi/startapp?appId=68687502";
+run("支付宝", activityData, taskList);
+
+alert("所有任务貌似都做完啦！\n若仍有任务请重新运行噢！\n\nPowered By Hyue418");
+log("Powered By Hyue418");
+log("Github: https://github.com/hyue418");
 
 /**
- * 淘宝超级星秀猫脚本
- * 模拟纯人工点击版
+ * 主方法
+ * @param appName 
+ * @param activityData 
+ * @param taskList 
  */
-function run() {
+function run(appName, activityData, taskList) {
     var i = j = 0;
-    var taskList = ['去浏览', '去搜索', '领取奖励', '去完成'];
-    log("淘宝双11超级星秀猫脚本");
-    log("Powered By Hyue418");
+    toastLog("打开【" + appName + "】活动页");
     app.startActivity({
         action: "VIEW",
-        data: "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index"
+        data: activityData
     })
-    log("进入活动页面");
     randomSleep(1000 * speed);
     className("android.widget.Button").text("赚喵币").waitFor()
     randomSleep(1000);
@@ -47,13 +65,14 @@ function run() {
     randomSleep(1500 * speed);
     taskList.forEach(task => {
         while (textContains(task).exists()) {
-            log("开始做第" + (i + 1) + "次任务！");
+            log("开始做第" + (i + 1) + "次任务");
             var button = text(task).findOnce(j);
             if (button == null) {
                 break;
             }
             switch (task) {
                 case '去搜索':
+                case '逛一逛':
                 case '去完成':
                     log("开始【" + task + "】任务")
                     clickButton(button);
@@ -86,6 +105,11 @@ function run() {
                     i++;
                     log("已完成第" + i + "次任务！");
                     back();
+                    //支付宝任务返回后需要点击确认按钮
+                    if (appName == '支付宝') {
+                        randomSleep(2000 * speed);
+                        clickContent('好的，我知道了');
+                    }
                     break;
                 case '去浏览':
                     log("开始【" + task + "】任务")
@@ -120,7 +144,8 @@ function run() {
             randomSleep(2000 * speed);
         }
     });
-    alert("任务貌似做完啦！\n若仍有任务请重新运行！\n\nPowered By Hyue418");
+    toastLog("【" + appName + "】任务已完成");
+    log("=================== ");
 }
 
 /**
@@ -137,7 +162,6 @@ function clickContent(content, type) {
         var button = desc(content).findOne();
     }
     clickButton(button);
-    toastLog("点击【" + content + "】");
     return button;
 }
 
