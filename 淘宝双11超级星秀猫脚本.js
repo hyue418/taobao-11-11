@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.3.1
+ * Versions: 1.3.2
  * Github: https://github.com/hyue418
  */
 
@@ -18,19 +18,19 @@ width = device.width;
 setScreenMetrics(width, height);
 swipeTips = "滑啊滑啊滑啊滑";
 
-alert("【双11超级星秀猫脚本 v1.3.1】\n\n请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\nPowered By Hyue418");
+alert("【双11超级星秀猫脚本 v1.3.2】\n\n请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\nPowered By Hyue418");
 log("淘宝双11超级星秀猫脚本");
 log("Powered By Hyue418");
 log("Github: https://github.com/hyue418");
 log("=================== ");
 
 //执行淘宝任务
-taskList = ['去浏览', '去搜索', '领取奖励', '去完成'];
+taskList = ['签到', '去浏览', '去搜索', '领取奖励', '去完成'];
 activityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
 run("淘宝", activityData, taskList);
 
 //执行支付宝任务
-taskList = ['逛一逛', '签到'];
+taskList = ['签到', '逛一逛'];
 activityData = "alipays://platformapi/startapp?appId=68687502";
 run("支付宝", activityData, taskList);
 
