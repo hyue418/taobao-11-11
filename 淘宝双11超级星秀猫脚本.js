@@ -115,7 +115,7 @@ function run() {
             randomSleep(2000 * speed);
         }
     });
-    alert("任务貌似做完啦！\n如果仍有任务就重新再运行一下吧！\n\nPowered By Hyue418");
+    alert("任务貌似做完啦！\n若仍有任务请重新运行！\n\nPowered By Hyue418");
 }
 
 /**
