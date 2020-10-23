@@ -3,18 +3,19 @@
  * User: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.2.0
+ * Versions: 1.2.1
  * Github: https://github.com/hyue418
  */
 
 "auto";
 alert("请确保使用淘宝V9.5版本\n高版本有进程检测会被制裁，奖励极低\n\nPowered By Hyue418");
 console.show();
+speed = 1;
+float = 1.25;
+swipeTips = "滑啊滑啊滑啊滑";
 height = device.height;
 width = device.width;
 setScreenMetrics(width, height);
-speed = 1;
-float = 1.25;
 run();
 
 /**
@@ -38,12 +39,10 @@ function run() {
         clickContent("赚喵币");
     }
     randomSleep(1500 * speed);
-    if (className("android.widget.Button").text("签到").exists()) {
-        clickContent("签到");
+    if (className("android.widget.Button").text("领取奖励").exists()) {
+        clickContent("领取奖励");
         randomSleep(200);
-        log("签到成功");
-    } else {
-        log("已签到");
+        log("领取奖励成功");
     }
     randomSleep(1500 * speed);
     taskList.forEach(task => {
@@ -58,7 +57,7 @@ function run() {
                 case '去完成':
                     log("开始【" + task + "】任务")
                     clickButton(button);
-                    randomSleep(1500 * speed);
+                    randomSleep(2000 * speed);
                     if (textContains("复制链接").exists()) {
                         log("跳过分享任务");
                         j++;
@@ -75,9 +74,13 @@ function run() {
                         back();
                         break;
                     }
-                    toastLog("滑啊滑啊滑啊滑");
+                    toast(swipeTips);
                     randomSwipe();
-                    randomSleep(15000 * speed);
+                    randomSleep(2000 * speed);
+                    toast(swipeTips);
+                    randomSwipe();
+                    randomSleep(2000 * speed);
+                    toast(swipeTips);
                     randomSwipe();
                     textContains("任务完成").findOne(10000 * speed);
                     i++;
@@ -90,11 +93,13 @@ function run() {
                     clickButton(button);
                     randomSleep(1500 * speed);
                     if (!textContains("跟主播聊").exists() || !textContains("赚金币").exists()) {
-                        toastLog("滑啊滑啊滑啊滑");
+                        toast(swipeTips);
                         randomSwipe();
                         randomSleep(3500 * speed);
+                        toast(swipeTips);
                         randomSwipe();
                         randomSleep(12000 * speed);
+                        toast(swipeTips);
                         randomSwipe();
                     } else {
                         randomSleep(15000 * speed);
