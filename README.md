@@ -11,8 +11,9 @@
 * 模拟人工点击（包括滑屏操作），所有操作随机化，防检测
 
 ## 使用说明
-* **安卓设备**（无需root），开启无障碍服务
-* 安装Auto.js，APP下导入js脚本后运行即可
+* **安卓设备**（无需root）安装Auto.js，APP下导入js脚本
+* 开启无障碍服务并授权给Auto.js
+* Auto.js APP下导入js脚本，运行即可
 * [auto.js-4.1.0下载](https://share.weiyun.com/5a9g8ys)
 * 仍不了解怎么使用的，建议度娘一下
 
