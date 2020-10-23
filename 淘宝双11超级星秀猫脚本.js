@@ -30,7 +30,7 @@ activityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
 run("淘宝", activityData, taskList);
 
 //执行支付宝任务
-taskList = ['逛一逛'];
+taskList = ['逛一逛', '签到'];
 activityData = "alipays://platformapi/startapp?appId=68687502";
 run("支付宝", activityData, taskList);
 
@@ -53,14 +53,14 @@ function run(appName, activityData, taskList) {
     })
     randomSleep(1000 * speed);
     className("android.widget.Button").text("赚喵币").waitFor()
-    randomSleep(1000);
+    randomSleep(1000 * speed);
     if (!textContains("累计任务奖励").exists()) {
         clickContent("赚喵币");
     }
     randomSleep(1500 * speed);
     if (className("android.widget.Button").text("领取奖励").exists()) {
         clickContent("领取奖励");
-        randomSleep(200);
+        randomSleep(200 * speed);
         log("领取奖励成功");
     }
     randomSleep(1500 * speed);
@@ -83,7 +83,7 @@ function run(appName, activityData, taskList) {
                         j++;
                         i++;
                         back();
-                        sleep(200);
+                        sleep(200 * speed);
                         back();
                         break;
                     }
@@ -135,9 +135,14 @@ function run(appName, activityData, taskList) {
                     back();
                     break;
                 case '领取奖励':
+                case '签到':
                     clickButton(button);
                     randomSleep(1500 * speed);
-                    log("领取奖励成功")
+                    log("【" + task + "】成功")
+                    //支付宝任务签到后需要点击确认按钮
+                    if (appName == '支付宝') {
+                        clickContent('好的，我知道了');
+                    }
                     break;
                 default:
                     break;
