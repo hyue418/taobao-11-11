@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.4.1
+ * Versions: 1.4.2
  * Github: https://github.com/hyue418
  */
 
@@ -17,7 +17,7 @@ try {
     exit();
 }
 //初始化参数
-versions = 'V1.4.1';
+versions = 'V1.4.2';
 speed = 1;
 float = 1.25;
 patNum = 0;
@@ -62,7 +62,7 @@ function taskChoose() {
             exit();
         }
         //拍猫次数加随机数，向下取整
-        patNum = ramdomByFloat(frequencyOptions[i]);
+        patNum = Math.floor(ramdomByFloat(frequencyOptions[i]));
         toastLog("选择拍猫猫" + frequencyOptions[i] + "次,加随机数至" + patNum + "次");
     }
     runOptions(options);
