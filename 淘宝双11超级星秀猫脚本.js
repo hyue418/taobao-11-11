@@ -5,41 +5,101 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.3.2
+ * Versions: 1.4.0
  * Github: https://github.com/hyue418
  */
 
-"auto";
-console.show();
+//初始化参数
+versions = 'V1.4.0';
 speed = 1;
 float = 1.25;
+patNum = 0;
+swipeTips = "滑啊滑啊滑啊滑";
+taobaoActivityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
+activityActivityData = "alipays://platformapi/startapp?appId=68687502";
+
 height = device.height;
 width = device.width;
 setScreenMetrics(width, height);
-swipeTips = "滑啊滑啊滑啊滑";
 
-alert("【双11超级星秀猫脚本 v1.3.2】\n\n请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\nPowered By Hyue418");
-log("淘宝双11超级星秀猫脚本");
+//判断无障碍权限
+if (auto.service == null) {
+    confirm("未开启无障碍服务", "请开启无障碍并授权给Auto.js\n是否直接去设置？") && app.startActivity({
+        action: "android.settings.ACCESSIBILITY_SETTINGS"
+    });
+    toastLog("请手动开启无障碍并授权给Auto.js");
+    exit();
+}
+
+console.show();
+log("淘宝双11超级星秀猫脚本" + versions);
+log("GitHub: https://github.com/hyue418");
 log("Powered By Hyue418");
-log("Github: https://github.com/hyue418");
-log("=================== ");
-
-//执行淘宝任务
-taskList = ['签到', '去浏览', '去搜索', '领取奖励', '去完成'];
-activityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
-run("淘宝", activityData, taskList);
-
-//执行支付宝任务
-taskList = ['签到', '逛一逛'];
-activityData = "alipays://platformapi/startapp?appId=68687502";
-run("支付宝", activityData, taskList);
-
-alert("所有任务貌似都做完啦！\n若仍有任务请重新运行噢！\n\nPowered By Hyue418");
+log("=========================");
+alert("【双11超级星秀猫脚本 " + versions + "】", "请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418");
+//开始执行任务弹窗
+taskChoose();
+log("GitHub: https://github.com/hyue418");
 log("Powered By Hyue418");
-log("Github: https://github.com/hyue418");
+alert("任务已完成", "所有任务貌似都做完啦！\n若仍有任务请重新运行噢！\n\nGitHub: https://github.com/hyue418\nPowered By Hyue418");
 
 /**
- * 主方法
+ * 任务选择
+ */
+function taskChoose() {
+    var options = dialogs.multiChoice("请选择需要执行的任务", ["淘宝赚喵币", "淘宝拍猫猫", "支付宝赚喵币"], [0, 2]);
+    if (options == '') {
+        toastLog("脚本已退出");
+        exit();
+    }
+    //选中拍猫猫时弹出次数选择
+    if (options.indexOf(1) > -1) {
+        var frequencyOptions = [10, 30, 50, 100, 200];
+        var i = dialogs.select(
+            "请选择拍猫猫次数",
+            frequencyOptions
+        );
+        if (i == -1) {
+            toastLog("脚本已退出");
+            exit();
+        }
+        //拍猫次数加随机数，向下取整
+        patNum = ramdomByFloat(frequencyOptions[i]);
+        toastLog("选择拍猫猫" + frequencyOptions[i] + "次,加随机数至" + patNum + "次");
+    }
+    runOptions(options);
+}
+
+/**
+ * 执行选中任务
+ * @param options 选项数组
+ */
+function runOptions(options) {
+    options.forEach(option => {
+        switch (option) {
+            case 0:
+                //执行淘宝任务
+                var taskList = ['签到', '领取', '去浏览', '去搜索', '去观看', '领取奖励', '去完成'];
+                run("手机淘宝", taobaoActivityData, taskList);
+                break;
+            case 1:
+                //执行拍猫猫任务
+                options.indexOf(0) > -1 ? patCat(patNum, 1) : patCat(patNum, 2);
+                break;
+            case 2:
+                //执行支付宝任务
+                var taskList = ['签到', '逛一逛'];
+                activityData = "alipays://platformapi/startapp?appId=68687502";
+                run("支付宝", activityActivityData, taskList);
+                break;
+            default:
+                break;
+        }
+    });
+}
+
+/**
+ * 主任务方法，兼容淘宝&支付宝
  * @param appName 
  * @param activityData 
  * @param taskList 
@@ -66,18 +126,18 @@ function run(appName, activityData, taskList) {
     randomSleep(1500 * speed);
     taskList.forEach(task => {
         while (textContains(task).exists()) {
-            log("开始做第" + (i + 1) + "次任务");
             var button = text(task).findOnce(j);
             if (button == null) {
                 break;
             }
+            log("开始做第" + (i + 1) + "次任务");
             switch (task) {
                 case '去搜索':
                 case '逛一逛':
                 case '去完成':
                     log("开始【" + task + "】任务")
                     clickButton(button);
-                    randomSleep(2000 * speed);
+                    randomSleep(3000 * speed);
                     if (textContains("复制链接").exists()) {
                         log("跳过分享任务");
                         j++;
@@ -96,15 +156,16 @@ function run(appName, activityData, taskList) {
                     }
                     toast(swipeTips);
                     randomSwipe();
-                    randomSleep(2000 * speed);
+                    randomSleep(5000 * speed);
                     toast(swipeTips);
                     randomSwipe();
-                    randomSleep(2000 * speed);
+                    randomSleep(6000 * speed);
                     toast(swipeTips);
                     randomSwipe();
-                    textContains("任务完成").findOne(10000 * speed);
+                    descContains("任务完成").findOne(8000 * speed);
+                    randomSleep(1000 * speed);
                     i++;
-                    log("已完成第" + i + "次任务！");
+                    log("已完成");
                     back();
                     //支付宝任务返回后需要点击确认按钮
                     if (appName == '支付宝') {
@@ -112,30 +173,33 @@ function run(appName, activityData, taskList) {
                         clickContent('好的，我知道了');
                     }
                     break;
+                case '去观看':
                 case '去浏览':
                     log("开始【" + task + "】任务")
                     randomSleep(500 * speed);
                     clickButton(button);
-                    randomSleep(1500 * speed);
+                    randomSleep(3000 * speed);
                     if (!textContains("跟主播聊").exists() || !textContains("赚金币").exists()) {
                         toast(swipeTips);
                         randomSwipe();
                         randomSleep(3500 * speed);
                         toast(swipeTips);
                         randomSwipe();
-                        randomSleep(12000 * speed);
+                        randomSleep(5500 * speed);
                         toast(swipeTips);
                         randomSwipe();
                     } else {
                         randomSleep(15000 * speed);
                     }
-                    textContains("任务完成").findOne(10000 * speed);
+                    textContains("全部完成").findOne(8000 * speed);
+                    randomSleep(1000 * speed);
                     i++;
-                    log("已完成第" + i + "次任务！")
+                    log("已完成")
                     back();
                     break;
                 case '领取奖励':
                 case '签到':
+                case '领取':
                     clickButton(button);
                     randomSleep(1500 * speed);
                     log("【" + task + "】成功")
@@ -145,23 +209,53 @@ function run(appName, activityData, taskList) {
                     }
                     break;
                 default:
+                    log("跳过")
                     break;
             }
             randomSleep(2000 * speed);
         }
     });
     toastLog("【" + appName + "】任务已完成");
-    log("=================== ");
+    log("=========================");
+}
+
+/**
+ * 拍猫猫任务
+ * @param num 拍猫猫次数
+ * @param type 任务执行类型：1当前页面执行，2打开淘宝APP执行
+ */
+function patCat(num, type) {
+    if (type == 1) {
+        clickContent("关闭");
+    } else if (type == 2) {
+        toastLog("打开【淘宝】活动页");
+        app.startActivity({
+            action: "VIEW",
+            data: taobaoActivityData
+        })
+    }
+    log("开始【拍猫猫】");
+    if (num == 0) {
+        return true;
+    }
+    toastLog("正在疯狂撸猫中...");
+    for (var i = 0; i < num; i++) {
+        clickContent("我的猫，点击撸猫", "text", 100);
+    }
+    toastLog("【拍猫猫】任务已完成，共拍猫" + num + "次");
+    log("=========================");
 }
 
 /**
  * 通过文字内容模拟点击按钮
  * @param content 按钮文字内容
  * @param type 点击类型，默认为text点击
+ * @param sleepTime 等待时间，默认1000毫秒
  */
-function clickContent(content, type) {
+function clickContent(content, type, sleepTime) {
     var type = type || "text";
-    sleep(1000);
+    var sleepTime = sleepTime || 1000;
+    sleep(sleepTime * float * speed);
     if (type == "text") {
         var button = text(content).findOne();
     } else {
@@ -170,7 +264,6 @@ function clickContent(content, type) {
     clickButton(button);
     return button;
 }
-
 
 /**
  * 根据控件的坐标范围随机模拟点击
