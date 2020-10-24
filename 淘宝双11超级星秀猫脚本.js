@@ -5,12 +5,19 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.4.0
+ * Versions: 1.4.1
  * Github: https://github.com/hyue418
  */
 
+try {
+    auto();
+} catch (error) {
+    toast("请手动开启无障碍并授权给Auto.js");
+    sleep(2000);
+    exit();
+}
 //初始化参数
-versions = 'V1.4.0';
+versions = 'V1.4.1';
 speed = 1;
 float = 1.25;
 patNum = 0;
@@ -21,15 +28,6 @@ activityActivityData = "alipays://platformapi/startapp?appId=68687502";
 height = device.height;
 width = device.width;
 setScreenMetrics(width, height);
-
-//判断无障碍权限
-if (auto.service == null) {
-    confirm("未开启无障碍服务", "请开启无障碍并授权给Auto.js\n是否直接去设置？") && app.startActivity({
-        action: "android.settings.ACCESSIBILITY_SETTINGS"
-    });
-    toastLog("请手动开启无障碍并授权给Auto.js");
-    exit();
-}
 
 console.show();
 log("淘宝双11超级星秀猫脚本" + versions);
