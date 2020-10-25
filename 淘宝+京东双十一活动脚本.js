@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 2.0.0
+ * Versions: 2.0.1
  * Github: https://github.com/hyue418
  */
 
@@ -17,7 +17,7 @@ try {
     exit();
 }
 //初始化参数
-versions = 'V2.0.0';
+versions = 'V2.0.1';
 speed = 1;
 float = 1.25;
 patNum = 0;
@@ -228,16 +228,14 @@ function runJd() {
     var i = j = 0;
     var task = "去完成";
     launch("com.jingdong.app.mall");
-    sleep(2000);
+    randomSleep(2000 * speed);
     clickContent("浮层活动", "desc");
-    sleep(200);
-    clickContent("浮层活动", "desc");
-    toastLog("打开【京东】活动页");
-    sleep(5000);
+    log("正在打开【京东】活动页");
+    toastLog("若未打开请手动进入活动页");
+    randomSleep(5000);
     text("领金币").waitFor();
     clickContent("领金币");
     randomSleep(1000 * speed);
-
     while (textContains(task).exists()) {
         var button = text(task).findOnce(j);
         if (button == null) {
