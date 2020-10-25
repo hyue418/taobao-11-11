@@ -1,11 +1,11 @@
 /**
- * 双十一超级星秀猫脚本
- * 支持淘宝+支付宝任务自动执行
+ * 淘宝+京东双十一活动脚本
+ * 支持淘宝\支付宝\京东任务自动执行
  * 
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 1.4.2
+ * Versions: 2.0.0
  * Github: https://github.com/hyue418
  */
 
@@ -17,7 +17,7 @@ try {
     exit();
 }
 //初始化参数
-versions = 'V1.4.2';
+versions = 'V2.0.0';
 speed = 1;
 float = 1.25;
 patNum = 0;
@@ -29,12 +29,15 @@ height = device.height;
 width = device.width;
 setScreenMetrics(width, height);
 
+// a=textContains("联合开卡").exists();
+// alert(a);
+// exit();
 console.show();
-log("淘宝双11超级星秀猫脚本" + versions);
+log("淘宝+京东双十一活动脚本" + versions);
 log("GitHub: https://github.com/hyue418");
 log("Powered By Hyue418");
 log("=========================");
-alert("【双11超级星秀猫脚本 " + versions + "】", "请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418");
+alert("【淘宝+京东双十一活动脚本 " + versions + "】", "请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418");
 //开始执行任务弹窗
 taskChoose();
 log("GitHub: https://github.com/hyue418");
@@ -45,7 +48,7 @@ alert("任务已完成", "所有任务貌似都做完啦！\n若仍有任务请�
  * 任务选择
  */
 function taskChoose() {
-    var options = dialogs.multiChoice("请选择需要执行的任务", ["淘宝赚喵币", "淘宝拍猫猫", "支付宝赚喵币"], [0, 2]);
+    var options = dialogs.multiChoice("请选择需要执行的任务", ["淘宝赚喵币", "淘宝拍猫猫", "支付宝赚喵币", "京东全民营业"], [0, 2, 3]);
     if (options == '') {
         toastLog("脚本已退出");
         exit();
@@ -78,7 +81,7 @@ function runOptions(options) {
             case 0:
                 //执行淘宝任务
                 var taskList = ['签到', '领取', '去浏览', '去搜索', '去观看', '领取奖励', '去完成'];
-                run("手机淘宝", taobaoActivityData, taskList);
+                runTaobao("手机淘宝", taobaoActivityData, taskList);
                 break;
             case 1:
                 //执行拍猫猫任务
@@ -88,7 +91,11 @@ function runOptions(options) {
                 //执行支付宝任务
                 var taskList = ['签到', '逛一逛'];
                 activityData = "alipays://platformapi/startapp?appId=68687502";
-                run("支付宝", activityActivityData, taskList);
+                runTaobao("支付宝", activityActivityData, taskList);
+                break;
+            case 3:
+                //执行京东任务
+                runJd();
                 break;
             default:
                 break;
@@ -97,12 +104,12 @@ function runOptions(options) {
 }
 
 /**
- * 主任务方法，兼容淘宝&支付宝
+ * 淘宝活动脚本，兼容淘宝&支付宝
  * @param appName 
  * @param activityData 
  * @param taskList 
  */
-function run(appName, activityData, taskList) {
+function runTaobao(appName, activityData, taskList) {
     var i = j = 0;
     toastLog("打开【" + appName + "】活动页");
     app.startActivity({
@@ -214,6 +221,71 @@ function run(appName, activityData, taskList) {
         }
     });
     toastLog("【" + appName + "】任务已完成");
+    log("=========================");
+}
+
+/**
+ * 京东活动脚本
+ */
+function runJd() {
+    var i = j = 0;
+    var task = "去完成";
+    launch("com.jingdong.app.mall");
+    sleep(2000);
+    clickContent("浮层活动", "desc");
+    sleep(200);
+    clickContent("浮层活动", "desc");
+    toastLog("打开【京东】活动页");
+    sleep(5000);
+    text("领金币").waitFor();
+    clickContent("领金币");
+    randomSleep(1000 * speed);
+
+    while (textContains(task).exists()) {
+        var button = text(task).findOnce(j);
+        if (button == null) {
+            break;;
+        }
+        log("开始做第" + (i + 1) + "次任务");
+        clickButton(button);
+        randomSleep(4000 * speed);
+        if (textContains("口令").exists() && textContains("取消").exists()) {
+            log("跳过助力任务");
+            j++;
+            i++;
+            clickContent("取消");
+            sleep(1000 * speed);
+            continue;
+        }
+        if (textContains("任意浏览").exists() || textContains("任意加购").exists() || textContains("联合开卡").exists()) {
+            log("跳过任务");
+            j++;
+            i++;
+            back();
+            sleep(500 * speed);
+            continue;
+        }
+        if (textContains("宠汪汪").exists() || textContains("京喜财富岛").exists() || textContains("天天加速").exists()) {
+            randomSleep(10000 * speed);
+        } else {
+            randomSleep(2500 * speed);
+            toast(swipeTips);
+            randomSwipe();
+            randomSleep(2200 * speed);
+            toast(swipeTips);
+            randomSwipe();
+            randomSleep(3500 * speed);
+            toast(swipeTips);
+            randomSwipe();
+        }
+        descContains("获得").findOne(8000 * speed);
+        randomSleep(500 * speed);
+        i++;
+        log("已完成");
+        back();
+        randomSleep(3000 * speed);
+    }
+    toastLog("【京东】任务已完成");
     log("=========================");
 }
 
