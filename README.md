@@ -102,3 +102,7 @@
 * Auto.js APP下导入js脚本，运行即可
 * [auto.js-4.1.0下载](https://share.weiyun.com/5a9g8ys)
 * 仍不了解怎么使用的，建议度娘一下
+
+## 下载链接
+* 手机进GitHub不好下载脚本的，可以进网盘下载
+* V2.0.2下载:https://wws.lanzous.com/iTaxrhq8y0f 密码:dy0p
