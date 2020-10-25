@@ -113,4 +113,5 @@
 
 ## 下载链接
 * 手机进GitHub不好下载脚本的，可以进网盘下载
-* V2.0.2下载:https://wws.lanzous.com/iTaxrhq8y0f 密码:dy0p
+* V2.1.0版
+下载:https://wws.lanzous.com/irXIQhqds7g 密码:f2bx
