@@ -232,7 +232,7 @@ function runJd() {
     clickContent("浮层活动", "desc");
     log("正在打开【京东】活动页");
     toastLog("若未打开请手动进入活动页");
-    randomSleep(5000);
+    randomSleep(5000 * speed);
     text("领金币").waitFor();
     clickContent("领金币");
     randomSleep(1000 * speed);
