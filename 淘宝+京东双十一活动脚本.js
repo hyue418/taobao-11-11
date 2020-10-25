@@ -29,9 +29,6 @@ height = device.height;
 width = device.width;
 setScreenMetrics(width, height);
 
-// a=textContains("联合开卡").exists();
-// alert(a);
-// exit();
 console.show();
 log("淘宝+京东双十一活动脚本" + versions);
 log("GitHub: https://github.com/hyue418");
