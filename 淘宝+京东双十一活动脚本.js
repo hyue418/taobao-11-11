@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 2.0.1
+ * Versions: 2.0.2
  * Github: https://github.com/hyue418
  */
 
@@ -17,7 +17,7 @@ try {
     exit();
 }
 //初始化参数
-versions = 'V2.0.1';
+versions = 'V2.0.2';
 speed = 1;
 float = 1.25;
 patNum = 0;
@@ -227,11 +227,17 @@ function runTaobao(appName, activityData, taskList) {
 function runJd() {
     var i = j = 0;
     var task = "去完成";
+    var activityButton = "浮层活动";
     launch("com.jingdong.app.mall");
     randomSleep(2000 * speed);
-    clickContent("浮层活动", "desc");
+    clickContent(activityButton, "desc");
     log("正在打开【京东】活动页");
-    toastLog("若未打开请手动进入活动页");
+    randomSleep(300 * speed);
+    //部分账号首页的活动浮层默认是收起状态，需要再点一次
+    if (descContains(activityButton).exists()) {
+        clickContent(activityButton, "desc");
+    }
+    toastLog("若页面有弹窗，请手动关闭");
     randomSleep(5000 * speed);
     text("领金币").waitFor();
     clickContent("领金币");
@@ -242,7 +248,7 @@ function runJd() {
             break;;
         }
         log("开始做第" + (i + 1) + "次任务");
-        clickButton(button);
+        jdClickButton(button);
         randomSleep(4000 * speed);
         if (textContains("口令").exists() && textContains("取消").exists()) {
             log("跳过助力任务");
@@ -337,6 +343,17 @@ function clickContent(content, type, sleepTime) {
 function clickButton(button) {
     var bounds = button.bounds();
     click(random(bounds.left, bounds.right), random(bounds.top, bounds.bottom));
+}
+
+/**
+ * 根据控件的坐标范围随机模拟点击（京东用）
+ * 京东任务按钮有弧边，通用的随机点击方法容易点出弧边外导致点击失效，此处做修正
+ * @param button 
+ */
+function jdClickButton(button) {
+    var bounds = button.bounds();
+    var width = bounds.right - bounds.left;
+    click(random(bounds.left + width / 5, bounds.right - width / 5), random(bounds.top, bounds.bottom));
 }
 
 /**
