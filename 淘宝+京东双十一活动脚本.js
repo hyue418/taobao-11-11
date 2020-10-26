@@ -38,12 +38,12 @@ log("=========================");
 log("GitHub: https://github.com/hyue418");
 log("Powered By Hyue418");
 log("=========================");
-alert("【淘宝+京东双十一活动脚本 " + versions + "】", "脚本执行过程请勿手动点击按钮，否则脚本执行可能会错乱，导致任务失败\n\n执行淘宝任务时请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418");
+alert("[淘宝+京东双十一活动脚本 " + versions + "]", "脚本执行过程请勿手动点击按钮，否则脚本执行可能会错乱，导致任务失败\n\n执行淘宝任务时请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418");
 //开始执行任务弹窗
 taskChoose();
 log("GitHub: https://github.com/hyue418");
 log("Powered By Hyue418");
-alert("任务已完成", "所有任务貌似都做完啦！\n若仍有任务请重新运行噢！\n\nGitHub: https://github.com/hyue418\nPowered By Hyue418");
+alert("任务已完成", "所有任务貌似都做完啦！\n若仍有任务请重新运行噢！");
 
 /**
  * 任务选择
@@ -117,7 +117,7 @@ function runOptions(options) {
  */
 function runTaobao(appName, activityData, taskList) {
     var i = j = 0;
-    toastLog("打开【" + appName + "】活动页");
+    toastLog("打开[" + appName + "]活动页");
     app.startActivity({
         action: "VIEW",
         data: activityData
@@ -146,7 +146,7 @@ function runTaobao(appName, activityData, taskList) {
                 case '去搜索':
                 case '逛一逛':
                 case '去完成':
-                    log("开始【" + task + "】任务")
+                    log("开始[" + task + "]任务")
                     clickButton(button);
                     randomSleep(3000 * speed);
                     if (textContains("复制链接").exists()) {
@@ -186,7 +186,7 @@ function runTaobao(appName, activityData, taskList) {
                     break;
                 case '去观看':
                 case '去浏览':
-                    log("开始【" + task + "】任务")
+                    log("开始[" + task + "]任务")
                     randomSleep(500 * speed);
                     clickButton(button);
                     randomSleep(3000 * speed);
@@ -213,7 +213,7 @@ function runTaobao(appName, activityData, taskList) {
                 case '领取':
                     clickButton(button);
                     randomSleep(1500 * speed);
-                    log("【" + task + "】成功")
+                    log("[" + task + "]成功")
                     //支付宝任务签到后需要点击确认按钮
                     if (appName == '支付宝') {
                         clickContent('好的，我知道了');
@@ -226,7 +226,7 @@ function runTaobao(appName, activityData, taskList) {
             randomSleep(2000 * speed);
         }
     });
-    toastLog("【" + appName + "】任务已完成");
+    toastLog("[" + appName + "]任务已完成");
     log("=========================");
 }
 
@@ -239,10 +239,10 @@ function runJd(taskList) {
     launch("com.jingdong.app.mall");
     randomSleep(2000 * speed);
     if (!descContains(activityButton).exists()) {
-        alert("温馨提示", "首页没有找到【全民营业】活动入口浮层\n请手动打开活动页，进入后脚本会自动执行");
+        alert("温馨提示", "首页没有找到[全民营业]活动入口浮层\n请手动打开活动页，进入后脚本会自动执行");
     } else {
         clickContent(activityButton, "desc");
-        log("正在打开【京东】活动页");
+        log("正在打开[京东]活动页");
         randomSleep(300 * speed);
         //部分账号首页的活动浮层默认是收起状态，再次点击(有时候会点击失败，所以用while)
         while (descContains(activityButton).exists()) {
@@ -325,7 +325,7 @@ function runJd(taskList) {
             }
         }
     });
-    toastLog("【京东】任务已完成");
+    toastLog("[京东]任务已完成");
     log("=========================");
 }
 
@@ -338,13 +338,13 @@ function patCat(num, type) {
     if (type == 1) {
         clickContent("关闭");
     } else if (type == 2) {
-        toastLog("打开【淘宝】活动页");
+        toastLog("打开[淘宝]活动页");
         app.startActivity({
             action: "VIEW",
             data: taobaoActivityData
         })
     }
-    log("开始【拍猫猫】");
+    log("开始[拍猫猫]");
     if (num == 0) {
         return true;
     }
@@ -352,7 +352,7 @@ function patCat(num, type) {
     for (var i = 0; i < num; i++) {
         clickContent("我的猫，点击撸猫", "text", 100);
     }
-    toastLog("【拍猫猫】任务已完成，共拍猫" + num + "次");
+    toastLog("[拍猫猫]任务已完成，共拍猫" + num + "次");
     log("=========================");
 }
 
