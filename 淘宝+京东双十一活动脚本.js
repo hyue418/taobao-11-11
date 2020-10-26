@@ -291,7 +291,7 @@ function runJd(taskList) {
                         jdClickButton(button);
                         randomSleep(300 * speed);
                     }
-                    if (textContains("任意浏览").exists() || textContains("任意加购").exists() || textContains("联合开卡").exists() || textContains("商圈红包").exists()) {
+                    if(textContains("联合开卡").exists() || textContains("商圈红包").exists()) {
                         log("跳过任务");
                         j++;
                         i++;
@@ -299,9 +299,17 @@ function runJd(taskList) {
                         randomSleep(500 * speed);
                         break;
                     }
+
                     if (textContains("宠汪汪").exists() || textContains("京喜财富岛").exists() || textContains("天天加速").exists()) {
                         randomSleep(10000 * speed);
-                    } else {
+                    } else if (textContains("任意浏览").exists() || textContains("任意加购").exists()) {
+                        if(!jdAddOrViewItem(textContains("任意浏览").exists())){
+                            log("浏览或加购失败")
+                            randomSleep(500 * speed);
+                            randomSwipe();
+                            jdAddOrViewItem(textContains("任意浏览").exists())
+                        }
+                    }else{
                         randomSleep(2500 * speed);
                         toast(swipeTips);
                         randomSwipe();
@@ -483,3 +491,56 @@ function bezierCurves(cp, t) {
     result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
     return result;
 };
+
+/**
+ *  京东 浏览商品或加购商品
+ *  参考 https://blog.csdn.net/YuZhiBo_KAI/article/details/106312689
+ * @param isView
+ * @returns {boolean}
+ */
+function jdAddOrViewItem(isView)
+{
+    var errorCount=0;
+    var goodsList = textMatches(/¥[0-9]+\.[0-9]+/).untilFind(),finished = false,father,selector;
+    for(var i = 0; i < goodsList.length; i ++){
+        finished = text("已完成").findOnce();
+        if(finished!=null) {
+            log("已完成本轮加购");
+            break;
+        }
+        try {
+            father = goodsList[i].parent().parent();
+            if(isView&&father){
+                randomSleep(2000 * speed);
+                jdClickButton(father);
+                randomSleep(2000 * speed);
+                randomSwipe();
+                randomSleep(1000 * speed);
+                back()
+                textContains("任意浏览").waitFor();
+            }else{
+                selector = clickable(true).filter(function(w){
+                    var b = w.bounds(),b_ = father.bounds();
+                    return Math.abs(b.bottom - b_.bottom) <= 150 && Math.abs(b.right - b_.right) <= 150
+                        && b.width() <= 150 && b.height() <= 150;
+                });
+                buttonGoods = father.findOne(selector);
+                if(buttonGoods!=null){
+                    jdClickButton(buttonGoods);
+                    log("正在加购 %s 的商品",goodsList[i].text());
+                    randomSleep(1000 * speed);
+                }
+            }
+        }catch(error){
+            if(errorCount>5) break;
+            errorCount++;
+            randomSleep(1000 * speed);
+            back()
+            randomSleep(1000 * speed);
+            randomSwipe();
+            continue
+        }
+
+    }
+    return finished;
+}
