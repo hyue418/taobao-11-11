@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 2.2.0
+ * Versions: 2.2.1
  * Github: https://github.com/hyue418
  */
 
@@ -18,13 +18,13 @@ try {
 }
 
 //初始化参数
-versions = 'V2.2.0';
+versions = 'V2.2.1';
 speed = 1;
 float = 1.25;
 patNum = 0;
 swipeTips = "滑啊滑啊滑啊滑";
 taskChooseList = ["淘宝赚喵币", "淘宝拍猫猫", "支付宝赚喵币", "京东全民营业"];
-speedChooseList = [0.75, 1, 1.25, 1.5, 1.75, 2, 3]
+speedChooseList = [0.75, 1, 1.25, 1.5, 1.75, 2, 3];
 taobaoActivityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
 activityActivityData = "alipays://platformapi/startapp?appId=68687502";
 
@@ -50,7 +50,7 @@ dialogs.build({
     speedAdjustment = checked;
 }).show();
 while (!positive) {
-    sleep(100)
+    sleep(100);
 }
 
 // 勾选调速
@@ -157,9 +157,9 @@ function runTaobao(appName, activityData, taskList) {
     app.startActivity({
         action: "VIEW",
         data: activityData
-    })
+    });
     randomSleep(1000 * speed);
-    className("android.widget.Button").text("赚喵币").waitFor()
+    className("android.widget.Button").text("赚喵币").waitFor();
     randomSleep(1000 * speed);
     if (!textContains("累计任务奖励").exists()) {
         clickContent("赚喵币");
@@ -182,7 +182,7 @@ function runTaobao(appName, activityData, taskList) {
                 case '去搜索':
                 case '逛一逛':
                 case '去完成':
-                    log("开始【" + task + "】任务")
+                    log("开始【" + task + "】任务");
                     clickButton(button);
                     randomSleep(3000 * speed);
                     if (textContains("复制链接").exists()) {
@@ -257,7 +257,7 @@ function runTaobao(appName, activityData, taskList) {
                     }
                     break;
                 default:
-                    log("跳过")
+                    log("跳过");
                     break;
             }
             randomSleep(2000 * speed);
@@ -379,7 +379,7 @@ function patCat(num, type) {
         app.startActivity({
             action: "VIEW",
             data: taobaoActivityData
-        })
+        });
     }
     log("开始【拍猫猫】");
     if (num == 0) {
