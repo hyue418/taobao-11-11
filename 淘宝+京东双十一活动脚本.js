@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 2.1.0
+ * Versions: 2.2.0
  * Github: https://github.com/hyue418
  */
 
@@ -18,12 +18,13 @@ try {
 }
 
 //初始化参数
-versions = 'V2.1.0';
+versions = 'V2.2.0';
 speed = 1;
 float = 1.25;
 patNum = 0;
 swipeTips = "滑啊滑啊滑啊滑";
 taskChooseList = ["淘宝赚喵币", "淘宝拍猫猫", "支付宝赚喵币", "京东全民营业"];
+speedChooseList = [0.75, 1, 1.25, 1.5, 1.75, 2, 3]
 taobaoActivityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
 activityActivityData = "alipays://platformapi/startapp?appId=68687502";
 
@@ -49,16 +50,16 @@ alert("任务已完成", "所有任务貌似都做完啦！\n若仍有任务请�
  * 任务选择
  */
 function taskChoose() {
-    var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList);
+    var options = dialogs.multiChoice("需要执行的任务", taskChooseList);
     if (options == '') {
         toastLog("脚本已退出");
         exit();
     }
     //选中拍猫猫时弹出次数选择
     if (options.indexOf(1) > -1) {
-        var frequencyOptions = [10, 30, 50, 100, 200];
+        var frequencyOptions = [10, 30, 50, 100, 200, 300];
         var i = dialogs.select(
-            "请选择拍猫猫次数",
+            "拍猫猫次数",
             frequencyOptions
         );
         if (i == -1) {
@@ -73,10 +74,30 @@ function taskChoose() {
 }
 
 /**
+ * 速度选择
+ */
+function speedChoose() {
+    var option = dialogs.singleChoice("操作间隔的倍数（越大越慢）", speedChooseList, 1);
+    if (option == -1) {
+        toastLog("脚本已退出");
+        exit();
+    }
+    speed = speedChooseList[option];
+}
+
+/**
  * 执行选中任务
  * @param options 选项数组
  */
 function runOptions(options) {
+    console.show();
+    log("淘宝+京东双十一活动脚本" + versions + "\n");
+    log("脚本执行期间请勿手动点击按钮");
+    log("当前脚本操作时间间隔为【" + speed + "倍】");
+    log("=========================");
+    log("GitHub: https://github.com/hyue418");
+    log("Powered By Hyue418");
+    log("=========================");
     options.forEach(option => {
         switch (option) {
             case 0:
@@ -107,6 +128,9 @@ function runOptions(options) {
                 break;
         }
     });
+    log("GitHub: https://github.com/hyue418");
+    log("Powered By Hyue418");
+    alert("任务已完成", "所有任务貌似都做完啦！\n若仍有任务请重新运行噢！\n\nGitHub: https://github.com/hyue418\nPowered By Hyue418");
 }
 
 /**
@@ -189,8 +213,11 @@ function runTaobao(appName, activityData, taskList) {
                     log("开始[" + task + "]任务")
                     randomSleep(500 * speed);
                     clickButton(button);
-                    randomSleep(3000 * speed);
-                    if (!textContains("跟主播聊").exists() || !textContains("赚金币").exists()) {
+                    randomSleep(4000 * speed);
+                    if (textContains("观看").exists() && textContains("关注").exists()) {
+                        //进入直播页面直接等待，不滑屏
+                        randomSleep(18000 * speed);
+                    } else {
                         toast(swipeTips);
                         randomSwipe();
                         randomSleep(3500 * speed);
@@ -199,8 +226,6 @@ function runTaobao(appName, activityData, taskList) {
                         randomSleep(5500 * speed);
                         toast(swipeTips);
                         randomSwipe();
-                    } else {
-                        randomSleep(15000 * speed);
                     }
                     textContains("全部完成").findOne(8000 * speed);
                     randomSleep(1000 * speed);
@@ -278,7 +303,7 @@ function runJd(taskList) {
                 case '去完成':
                     jdClickButton(button);
                     randomSleep(3000 * speed);
-                    if (textContains("口令").exists() && textContains("取消").exists()) {
+                    if (className("android.view.View").textContains("取消").exists()) {
                         log("跳过助力任务");
                         j++;
                         i++;
