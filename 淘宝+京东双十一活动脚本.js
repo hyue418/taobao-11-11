@@ -1,11 +1,11 @@
 /**
  * 淘宝+京东双十一活动脚本
  * 支持淘宝\支付宝\京东任务自动执行
- * 
+ *
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 2.2.1
+ * Versions: 2.1.0
  * Github: https://github.com/hyue418
  */
 
@@ -18,13 +18,12 @@ try {
 }
 
 //初始化参数
-versions = 'V2.2.1';
+versions = 'V2.1.0';
 speed = 1;
 float = 1.25;
 patNum = 0;
 swipeTips = "滑啊滑啊滑啊滑";
 taskChooseList = ["淘宝赚喵币", "淘宝拍猫猫", "支付宝赚喵币", "京东全民营业"];
-speedChooseList = [0.75, 1, 1.25, 1.5, 1.75, 2, 3];
 taobaoActivityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
 activityActivityData = "alipays://platformapi/startapp?appId=68687502";
 
@@ -32,46 +31,34 @@ height = device.height;
 width = device.width;
 setScreenMetrics(width, height);
 
-positive = false;
-speedAdjustment = false;
-dialogs.build({
-    title: "【淘宝+京东双十一活动脚本 " + versions + "】",
-    content: "脚本执行过程请勿手动点击按钮，否则脚本执行可能会错乱，导致任务失败\n\n执行淘宝任务时请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418",
-    positive: "开始运行",
-    negative: "取消",
-    checkBoxPrompt: "调节脚本速度",
-    canceledOnTouchOutside: false
-}).on("positive", () => {
-    positive = true;
-}).on("negative", () => {
-    toast("脚本已退出");
-    exit();
-}).on("check", (checked) => {
-    speedAdjustment = checked;
-}).show();
-while (!positive) {
-    sleep(100);
-}
-
-// 勾选调速
-speedAdjustment && speedChoose();
-// 选择任务
+console.show();
+log("淘宝+京东双十一活动脚本" + versions + "\n");
+log("脚本执行期间请勿手动点击按钮");
+log("=========================");
+log("GitHub: https://github.com/hyue418");
+log("Powered By Hyue418");
+log("=========================");
+alert("【淘宝+京东双十一活动脚本 " + versions + "】", "脚本执行过程请勿手动点击按钮，否则脚本执行可能会错乱，导致任务失败\n\n执行淘宝任务时请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418");
+//开始执行任务弹窗
 taskChoose();
+log("GitHub: https://github.com/hyue418");
+log("Powered By Hyue418");
+alert("任务已完成", "所有任务貌似都做完啦！\n若仍有任务请重新运行噢！\n\nGitHub: https://github.com/hyue418\nPowered By Hyue418");
 
 /**
  * 任务选择
  */
 function taskChoose() {
-    var options = dialogs.multiChoice("需要执行的任务", taskChooseList);
+    var options = dialogs.multiChoice("请选择需要执行的任务", taskChooseList);
     if (options == '') {
         toastLog("脚本已退出");
         exit();
     }
     //选中拍猫猫时弹出次数选择
     if (options.indexOf(1) > -1) {
-        var frequencyOptions = [10, 30, 50, 100, 200, 300];
+        var frequencyOptions = [10, 30, 50, 100, 200];
         var i = dialogs.select(
-            "拍猫猫次数",
+            "请选择拍猫猫次数",
             frequencyOptions
         );
         if (i == -1) {
@@ -86,30 +73,10 @@ function taskChoose() {
 }
 
 /**
- * 速度选择
- */
-function speedChoose() {
-    var option = dialogs.singleChoice("操作间隔的倍数（越大越慢）", speedChooseList, 1);
-    if (option == -1) {
-        toastLog("脚本已退出");
-        exit();
-    }
-    speed = speedChooseList[option];
-}
-
-/**
  * 执行选中任务
  * @param options 选项数组
  */
 function runOptions(options) {
-    console.show();
-    log("淘宝+京东双十一活动脚本" + versions + "\n");
-    log("脚本执行期间请勿手动点击按钮");
-    log("当前脚本操作时间间隔为【" + speed + "倍】");
-    log("=========================");
-    log("GitHub: https://github.com/hyue418");
-    log("Powered By Hyue418");
-    log("=========================");
     options.forEach(option => {
         switch (option) {
             case 0:
@@ -140,16 +107,13 @@ function runOptions(options) {
                 break;
         }
     });
-    log("GitHub: https://github.com/hyue418");
-    log("Powered By Hyue418");
-    alert("任务已完成", "所有任务貌似都做完啦！\n若仍有任务请重新运行噢！\n\nGitHub: https://github.com/hyue418\nPowered By Hyue418");
 }
 
 /**
  * 淘宝活动脚本，兼容淘宝&支付宝
- * @param appName 
- * @param activityData 
- * @param taskList 
+ * @param appName
+ * @param activityData
+ * @param taskList
  */
 function runTaobao(appName, activityData, taskList) {
     var i = j = 0;
@@ -157,9 +121,9 @@ function runTaobao(appName, activityData, taskList) {
     app.startActivity({
         action: "VIEW",
         data: activityData
-    });
+    })
     randomSleep(1000 * speed);
-    className("android.widget.Button").text("赚喵币").waitFor();
+    className("android.widget.Button").text("赚喵币").waitFor()
     randomSleep(1000 * speed);
     if (!textContains("累计任务奖励").exists()) {
         clickContent("赚喵币");
@@ -182,7 +146,7 @@ function runTaobao(appName, activityData, taskList) {
                 case '去搜索':
                 case '逛一逛':
                 case '去完成':
-                    log("开始【" + task + "】任务");
+                    log("开始【" + task + "】任务")
                     clickButton(button);
                     randomSleep(3000 * speed);
                     if (textContains("复制链接").exists()) {
@@ -225,11 +189,8 @@ function runTaobao(appName, activityData, taskList) {
                     log("开始【" + task + "】任务")
                     randomSleep(500 * speed);
                     clickButton(button);
-                    randomSleep(4000 * speed);
-                    if (textContains("观看").exists() && textContains("关注").exists()) {
-                        //进入直播页面直接等待，不滑屏
-                        randomSleep(18000 * speed);
-                    } else {
+                    randomSleep(3000 * speed);
+                    if (!textContains("跟主播聊").exists() || !textContains("赚金币").exists()) {
                         toast(swipeTips);
                         randomSwipe();
                         randomSleep(3500 * speed);
@@ -238,6 +199,8 @@ function runTaobao(appName, activityData, taskList) {
                         randomSleep(5500 * speed);
                         toast(swipeTips);
                         randomSwipe();
+                    } else {
+                        randomSleep(15000 * speed);
                     }
                     textContains("全部完成").findOne(8000 * speed);
                     randomSleep(1000 * speed);
@@ -257,7 +220,7 @@ function runTaobao(appName, activityData, taskList) {
                     }
                     break;
                 default:
-                    log("跳过");
+                    log("跳过")
                     break;
             }
             randomSleep(2000 * speed);
@@ -315,7 +278,7 @@ function runJd(taskList) {
                 case '去完成':
                     jdClickButton(button);
                     randomSleep(3000 * speed);
-                    if (className("android.view.View").textContains("取消").exists()) {
+                    if (textContains("口令").exists() && textContains("取消").exists()) {
                         log("跳过助力任务");
                         j++;
                         i++;
@@ -379,7 +342,7 @@ function patCat(num, type) {
         app.startActivity({
             action: "VIEW",
             data: taobaoActivityData
-        });
+        })
     }
     log("开始【拍猫猫】");
     if (num == 0) {
@@ -414,7 +377,7 @@ function clickContent(content, type, sleepTime) {
 
 /**
  * 根据控件的坐标范围随机模拟点击
- * @param button 
+ * @param button
  */
 function clickButton(button) {
     var bounds = button.bounds();
@@ -424,7 +387,7 @@ function clickButton(button) {
 /**
  * 根据控件的坐标范围随机模拟点击（京东用）
  * 京东任务按钮有圆角，通用的随机点击方法容易点出圆角外导致点击失效，此处做修正
- * @param button 
+ * @param button
  */
 function jdClickButton(button) {
     var bounds = button.bounds();
@@ -434,7 +397,7 @@ function jdClickButton(button) {
 
 /**
  * 根据float倍数sleep随机时间
- * @param time 
+ * @param time
  */
 function randomSleep(time) {
     sleep(ramdomByFloat(time));
@@ -449,8 +412,8 @@ function randomSwipe() {
 
 /**
  * 范围随机数生成
- * @param min 
- * @param max 
+ * @param min
+ * @param max
  */
 function random(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
@@ -458,14 +421,14 @@ function random(min, max) {
 
 /**
  * 根据float生成随机数
- * @param number 
+ * @param number
  */
 function ramdomByFloat(number) {
     return random(number, number * float);
 }
 
 /**
- * 仿真随机带曲线滑动 
+ * 仿真随机带曲线滑动
  * @param qx 起点x轴坐标
  * @param qy 起点y轴坐标
  * @param zx 终点x轴坐标
@@ -493,7 +456,8 @@ function smlMove(qx, qy, zx, zy, time) {
     };
     for (var i = 0; i < 4; i++) {
         eval("point.push(dx" + i + ")");
-    };
+    }
+    ;
     for (let i = 0; i < 1; i += 0.08) {
         xxyy = [parseInt(bezierCurves(point, i).x), parseInt(bezierCurves(point, i).y)];
         xxy.push(xxyy);
