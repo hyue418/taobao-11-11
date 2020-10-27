@@ -132,5 +132,7 @@
 
 ## 下载链接
 * 手机进GitHub不好下载脚本的，可以进网盘下载
+* 自动更新
+下载 https://cdn.jsdelivr.net/gh/hyue418/taobao-11-11/
 * V2.1.0版
-下载:https://wws.lanzous.com/irXIQhqds7g 密码:f2bx
+下载: https://wws.lanzous.com/irXIQhqds7g 密码:f2bx
