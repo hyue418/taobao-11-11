@@ -303,12 +303,7 @@ function runJd(taskList) {
                     if (textContains("宠汪汪").exists() || textContains("京喜财富岛").exists() || textContains("天天加速").exists()) {
                         randomSleep(10000 * speed);
                     } else if (textContains("任意浏览").exists() || textContains("任意加购").exists()) {
-                        if(!jdAddOrViewItem(textContains("任意浏览").exists())){
-                            log("浏览或加购失败")
-                            randomSleep(500 * speed);
-                            randomSwipe();
-                            jdAddOrViewItem(textContains("任意浏览").exists())
-                        }
+                        jdAddOrViewItem(textContains("任意浏览").exists())
                     }else{
                         randomSleep(2500 * speed);
                         toast(swipeTips);
@@ -511,14 +506,19 @@ function jdAddOrViewItem(isView)
         try {
             father = goodsList[i].parent().parent();
             if(isView&&father){
+                console.log('浏览');
                 randomSleep(2000 * speed);
                 jdClickButton(father);
                 randomSleep(2000 * speed);
                 randomSwipe();
                 randomSleep(1000 * speed);
-                back()
+                if(!textContains("任意浏览").exists()){
+                    back()
+                }
+
                 textContains("任意浏览").waitFor();
             }else{
+                console.log('加购');
                 selector = clickable(true).filter(function(w){
                     var b = w.bounds(),b_ = father.bounds();
                     return Math.abs(b.bottom - b_.bottom) <= 150 && Math.abs(b.right - b_.right) <= 150
@@ -532,6 +532,7 @@ function jdAddOrViewItem(isView)
                 }
             }
         }catch(error){
+            if(textContains("领金币").exists()) return
             if(errorCount>5) break;
             errorCount++;
             randomSleep(1000 * speed);
