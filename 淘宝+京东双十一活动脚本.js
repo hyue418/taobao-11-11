@@ -291,7 +291,7 @@ function runJd(taskList) {
                         jdClickButton(button);
                         randomSleep(300 * speed);
                     }
-                    if(textContains("联合开卡").exists() || textContains("商圈红包").exists()) {
+                    if(textContains("商圈红包").exists()) {
                         log("跳过任务");
                         j++;
                         i++;
@@ -304,7 +304,11 @@ function runJd(taskList) {
                         randomSleep(10000 * speed);
                     } else if (textContains("任意浏览").exists() || textContains("任意加购").exists()) {
                         jdAddOrViewItem(textContains("任意浏览").exists())
-                    }else{
+                    }else if(textContains("联合开卡").exists()){
+                        randomSleep(300 * speed);
+                        jdClickButton(textContains("确认授权并加入店铺会员").findOnce())
+                        randomSleep(300 * speed);
+                    } else{
                         randomSleep(2500 * speed);
                         toast(swipeTips);
                         randomSwipe();
