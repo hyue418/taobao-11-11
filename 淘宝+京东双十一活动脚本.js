@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 2.3.0
+ * Versions: 2.3.1
  * Github: https://github.com/hyue418
  */
 
@@ -18,7 +18,7 @@ try {
 }
 
 //初始化参数
-versions = 'V2.3.0';
+versions = 'V2.3.1';
 speed = 1;
 float = 1.25;
 patNum = 0;
