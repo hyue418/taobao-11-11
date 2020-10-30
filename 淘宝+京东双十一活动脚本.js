@@ -361,6 +361,10 @@ function runJd(taskList) {
                     descContains("获得").findOne(8000 * speed);
                     randomSleep(500 * speed);
                     i++;
+                    if (textContains("京友圈").exists()) {
+                        back();
+                        randomSleep(500 * speed);
+                    }
                     log("已完成");
                     back();
                     randomSleep(4000 * speed);
