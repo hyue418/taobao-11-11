@@ -226,12 +226,7 @@ function runTaobao(appName, activityData, taskList) {
                     break;
                 case '去观看':
                 case '去浏览':
-<<<<<<< HEAD
-                    log("开始[" + task + "]任务")
-                    randomSleep(500 * speed);
-=======
                     log("开始【" + task + "】任务")
->>>>>>> 9aef3364f205f2f8d2a779b391a7c84ae5c17a4c
                     clickButton(button);
                     randomSleep(500 * speed);
                     //若未点击成功，则再次点击
