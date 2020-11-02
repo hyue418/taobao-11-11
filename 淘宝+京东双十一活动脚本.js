@@ -31,20 +31,8 @@ width = device.width;
 height = device.height;
 setScreenMetrics(width, height);
 
-<<<<<<< HEAD
-console.show();
-log("淘宝+京东双十一活动脚本" + versions + "\n");
-log("脚本执行期间请勿手动点击按钮");
-log("=========================");
-log("GitHub: https://github.com/hyue418");
-log("Powered By Hyue418");
-log("=========================");
-alert("[淘宝+京东双十一活动脚本 " + versions + "]", "脚本执行过程请勿手动点击按钮，否则脚本执行可能会错乱，导致任务失败\n\n执行淘宝任务时请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418");
-//开始执行任务弹窗
-=======
 alert("【淘宝+京东双十一活动脚本 " + versions + "】", "脚本执行过程请勿手动点击按钮，否则脚本执行可能会错乱，导致任务失败\n\n执行淘宝任务时请确保使用低版本淘宝（V9.5及以下），否则无法获取奖励\n\n最新版脚本请到GitHub获取\nGitHub: https://github.com/hyue418\n\nPowered By Hyue418");
 // 选择任务
->>>>>>> 9aef3364f205f2f8d2a779b391a7c84ae5c17a4c
 taskChoose();
 log("GitHub: https://github.com/hyue418");
 log("Powered By Hyue418");
