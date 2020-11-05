@@ -297,7 +297,6 @@ function runJd(taskList) {
     taskList.forEach(task => {
         while (textContains(task).exists()) {
             var button = text(task).findOnce(j);
-            log(j);
             if (button == null) {
                 break;
             }
