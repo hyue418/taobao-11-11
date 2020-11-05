@@ -313,10 +313,6 @@ function runJd(taskList) {
                     var k = 0;
                     //任务标题
                     var taskTitle = button.parent().child(1).getText();
-                    log(taskTitle);
-                    i++;
-                    j++
-                    break;
                     jdClickButton(button);
                     randomSleep(1000 * speed);
                     if (className("android.view.View").textContains("取消").exists()) {
