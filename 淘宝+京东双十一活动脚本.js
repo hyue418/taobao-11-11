@@ -5,7 +5,7 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 2.4.0
+ * Versions: 2.4.1
  * Github: https://github.com/hyue418
  */
 
@@ -18,7 +18,7 @@ try {
 }
 
 //初始化参数
-versions = 'V2.4.0';
+versions = 'V2.4.1';
 speed = 1;
 float = 1.25;
 patNum = 0;
@@ -310,8 +310,6 @@ function runJd(taskList) {
                     break;
                 case '去完成':
                     var k = 0;
-                    //任务标题
-                    var taskTitle = button.parent().child(1).getText();
                     jdClickButton(button);
                     randomSleep(1000 * speed);
                     if (className("android.view.View").textContains("取消").exists()) {
@@ -335,14 +333,6 @@ function runJd(taskList) {
                         }
                     }
                     randomSleep(2000 * speed);
-                    //微信小程序任务
-                    // if (taskTitle.indexOf("小程序") != -1) {
-                    //     randomSleep(1000 * speed);
-                    //     launch("com.jingdong.app.mall");
-                    //     log("已完成");
-                    //     randomSleep(2000 * speed);
-                    //     break;
-                    // }
                     if (textContains("联合开卡").exists() || textContains("商圈红包").exists()) {
                         log("跳过任务");
                         j++;
