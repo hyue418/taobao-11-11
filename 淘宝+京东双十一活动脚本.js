@@ -138,10 +138,11 @@ function runTaobao(appName, activityData, taskList) {
         data: activityData
     });
     randomSleep(1000 * speed);
-    className("android.widget.Button").text("赚喵币").waitFor();
+    textContains("赚喵币").findOne().click();;
     randomSleep(1000 * speed);
-    if (!textContains("累计任务奖励").exists()) {
-        clickContent("赚喵币");
+    if (!textContains("累计任务奖励")) {
+        textContains("赚喵币").findOne().click();
+        log("赚喵币");
     }
     randomSleep(1500 * speed);
     if (className("android.widget.Button").text("领取奖励").exists()) {
