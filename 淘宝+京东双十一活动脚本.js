@@ -5,10 +5,11 @@
  * Author: Hyue418
  * Date: 2020/10/21
  * Time: 21:16
- * Versions: 2.4.1
+ * Versions: 2.5.0
  * Github: https://github.com/hyue418
  */
 
+//无障碍判定
 try {
     auto();
 } catch (error) {
@@ -18,7 +19,7 @@ try {
 }
 
 //初始化参数
-versions = 'V2.4.1';
+versions = 'V2.5.0';
 speed = 1;
 float = 1.25;
 patNum = 0;
@@ -26,7 +27,7 @@ swipeTips = "滑啊滑啊滑啊滑ヽ(￣▽￣)ﾉ";
 taskChooseList = ["淘宝赚喵币", "淘宝拍猫猫", "支付宝赚喵币", "京东全民营业", "调节脚本速度"];
 speedChooseList = [0.75, 1, 1.25, 1.5, 1.75, 2, 3];
 taobaoActivityData = "taobao://pages.tmall.com/wow/z/hdwk/act-20201111/index";
-activityActivityData = "alipays://platformapi/startapp?appId=68687502";
+alipaysActivityData = "alipays://platformapi/startapp?appId=68687502";
 width = device.width;
 height = device.height;
 setScreenMetrics(width, height);
@@ -107,7 +108,7 @@ function runOptions(options) {
                 var taskList = ['签到', '逛一逛'];
                 log("=====开始执行" + taskChooseList[option] + "=====");
                 activityData = "alipays://platformapi/startapp?appId=68687502";
-                runTaobao("支付宝", activityActivityData, taskList);
+                runTaobao("支付宝", alipaysActivityData, taskList);
                 break;
             case 3:
                 //执行京东任务
@@ -137,19 +138,19 @@ function runTaobao(appName, activityData, taskList) {
         action: "VIEW",
         data: activityData
     });
-    randomSleep(1000 * speed);
+    randomSleep(1000);
     className("android.widget.Button").text("赚喵币").waitFor();
-    randomSleep(1000 * speed);
+    randomSleep(1000);
     if (!textContains("累计任务奖励").exists()) {
         clickContent("赚喵币");
     }
-    randomSleep(1500 * speed);
+    randomSleep(1500);
     if (className("android.widget.Button").text("领取奖励").exists()) {
         clickContent("领取奖励");
-        randomSleep(200 * speed);
+        randomSleep(200);
         log("领取奖励成功");
     }
-    randomSleep(1500 * speed);
+    randomSleep(1500);
     taskList.forEach(task => {
         while (textContains(task).exists()) {
             var button = text(task).findOnce(j);
@@ -163,19 +164,19 @@ function runTaobao(appName, activityData, taskList) {
                 case '去完成':
                     log("开始【" + task + "】任务");
                     clickButton(button);
-                    randomSleep(500 * speed);
+                    randomSleep(500);
                     //若未点击成功，则再次点击
                     while (textContains(task).exists()) {
                         clickButton(button);
-                        randomSleep(300 * speed);
+                        randomSleep(300);
                     }
-                    randomSleep(2500 * speed);
+                    randomSleep(2500);
                     if (textContains("复制链接").exists()) {
                         log("跳过分享任务");
                         j++;
                         i++;
                         back();
-                        sleep(200 * speed);
+                        randomSleep(200);
                         back();
                         break;
                     }
@@ -188,20 +189,20 @@ function runTaobao(appName, activityData, taskList) {
                     }
                     toast(swipeTips);
                     randomSwipe();
-                    randomSleep(5000 * speed);
+                    randomSleep(5000);
                     toast(swipeTips);
                     randomSwipe();
-                    randomSleep(6000 * speed);
+                    randomSleep(6000);
                     toast(swipeTips);
                     randomSwipe();
                     descContains("任务完成").findOne(8000 * speed);
-                    randomSleep(1000 * speed);
+                    randomSleep(1000);
                     i++;
                     log("已完成");
                     back();
                     //支付宝任务返回后需要点击确认按钮
                     if (appName == '支付宝') {
-                        randomSleep(2000 * speed);
+                        randomSleep(2000);
                         clickContent('好的，我知道了');
                     }
                     break;
@@ -209,28 +210,28 @@ function runTaobao(appName, activityData, taskList) {
                 case '去浏览':
                     log("开始【" + task + "】任务")
                     clickButton(button);
-                    randomSleep(500 * speed);
+                    randomSleep(500);
                     //若未点击成功，则再次点击
                     while (textContains(task).exists()) {
                         clickButton(button);
-                        randomSleep(300 * speed);
+                        randomSleep(300);
                     }
-                    randomSleep(3500 * speed);
+                    randomSleep(3500);
                     if (textContains("观看").exists() && textContains("关注").exists()) {
                         //进入直播页面直接等待，不滑屏
-                        randomSleep(18000 * speed);
+                        randomSleep(18000);
                     } else {
                         toast(swipeTips);
                         randomSwipe();
-                        randomSleep(3500 * speed);
+                        randomSleep(3500);
                         toast(swipeTips);
                         randomSwipe();
-                        randomSleep(5500 * speed);
+                        randomSleep(5500);
                         toast(swipeTips);
                         randomSwipe();
                     }
                     textContains("全部完成").findOne(8000 * speed);
-                    randomSleep(1000 * speed);
+                    randomSleep(1000);
                     i++;
                     log("已完成")
                     back();
@@ -239,7 +240,7 @@ function runTaobao(appName, activityData, taskList) {
                 case '签到':
                 case '领取':
                     clickButton(button);
-                    randomSleep(1500 * speed);
+                    randomSleep(1500);
                     log("【" + task + "】成功")
                     //支付宝任务签到后需要点击确认按钮
                     if (appName == '支付宝') {
@@ -250,7 +251,7 @@ function runTaobao(appName, activityData, taskList) {
                     log("跳过");
                     break;
             }
-            randomSleep(2000 * speed);
+            randomSleep(2000);
         }
     });
     toastLog("【" + appName + "】任务已完成");
@@ -263,37 +264,10 @@ function runTaobao(appName, activityData, taskList) {
 function runJd(taskList) {
     var i = 0;
     var j = 2;
-    var activityButton = "浮层活动";
     launch("com.jingdong.app.mall");
-    randomSleep(3000 * speed);
-    if (!descContains(activityButton).exists()) {
-        alert("温馨提示", "首页没有找到【全民营业】活动入口浮层\n请手动打开活动页，进入后脚本会自动执行");
-    } else {
-        clickContent(activityButton, "desc");
-        log("正在打开【京东】活动页");
-        randomSleep(300 * speed);
-        //部分账号首页的活动浮层默认是收起状态，再次点击(有时候会点击失败，所以用while)
-        while (descContains(activityButton).exists()) {
-            clickContent(activityButton, "desc");
-            randomSleep(300 * speed);
-        }
-        toastLog("若页面有弹窗，请手动关闭");
-        randomSleep(5000 * speed);
-    }
-    jdcollectCoins();
-    randomSleep(500 * speed);
-    jdcollectCoins();
-    toastLog("收取金币成功");
-    randomSleep(1000 * speed);
-    text("领金币").waitFor();
-    clickContent("领金币");
-    log("展开任务列表");
-    randomSleep(1000 * speed);
-    //未打开任务列表则再次尝试点击
-    while (!textContains("去完成").exists() && !textContains("已完成").exists()) {
-        clickContent("领金币");
-        randomSleep(300 * speed);
-    }
+    randomSleep(3000);
+    //打开活动页
+    jdOpenActivityPage();
     taskList.forEach(task => {
         while (textContains(task).exists()) {
             var button = text(task).findOnce(j);
@@ -306,25 +280,25 @@ function runJd(taskList) {
                     jdClickButton(button);
                     log("签到成功");
                     i++;
-                    randomSleep(1000 * speed);
+                    randomSleep(1000);
                     break;
                 case '去完成':
                     var k = 0;
                     jdClickButton(button);
-                    randomSleep(1000 * speed);
+                    randomSleep(1000);
                     if (className("android.view.View").textContains("取消").exists()) {
                         log("跳过助力任务");
                         j++;
                         i++;
                         clickContent("取消");
-                        randomSleep(1000 * speed);
+                        randomSleep(1000);
                         break;
                     } else {
-                        randomSleep(1000 * speed);
+                        randomSleep(1000);
                         //若未点击成功，则再点击五次，仍未成功则跳过
                         while (textContains(task).exists() && k < 5) {
                             jdClickButton(button);
-                            randomSleep(300 * speed);
+                            randomSleep(300);
                             k++;
                         }
                         if (k >= 5) {
@@ -332,57 +306,124 @@ function runJd(taskList) {
                             break;
                         }
                     }
-                    randomSleep(2000 * speed);
+                    randomSleep(2000);
                     if (textContains("联合开卡").exists() || textContains("商圈红包").exists()) {
                         log("跳过任务");
                         j++;
                         i++;
                         back();
-                        randomSleep(500 * speed);
+                        randomSleep(500);
                         break;
                     } else if (textContains("任意浏览").exists()) {
                         jdBrowsingOrShopping("浏览");
                         back();
-                        randomSleep(500 * speed);
+                        randomSleep(500);
                         break;
                     } else if (textContains("任意加购").exists()) {
                         jdBrowsingOrShopping("加购");
                         back();
-                        randomSleep(500 * speed);
+                        randomSleep(500);
                         break;
                     }
                     if (textContains("宠汪汪").exists() || textContains("京喜财富岛").exists() || textContains("天天加速").exists()) {
-                        randomSleep(10000 * speed);
+                        randomSleep(10000);
                     } else {
-                        randomSleep(2500 * speed);
+                        randomSleep(2500);
                         toast(swipeTips);
                         randomSwipe();
-                        randomSleep(2200 * speed);
+                        randomSleep(2200);
                         toast(swipeTips);
                         randomSwipe();
-                        randomSleep(3500 * speed);
+                        randomSleep(3500);
                         toast(swipeTips);
                         randomSwipe();
                     }
                     descContains("获得").findOne(8000 * speed);
-                    randomSleep(500 * speed);
+                    randomSleep(500);
                     i++;
-                    if (textContains("京友圈").exists() || textContains("东东超市").exists()) {
-                        back();
-                        randomSleep(500 * speed);
-                    }
                     log("已完成");
                     back();
-                    randomSleep(4000 * speed);
+                    randomSleep(4000);
                     break;
                 default:
                     log("跳过")
                     break;
             }
+            //任务容错
+            if (!textContains("已完成").exists() && !textContains("未完成").exists()) {
+                //判定京东首页，重新打开活动
+                if (textContains("扫啊扫").exists() && textContains("消息").exists()) {
+                    log("哦豁，不知为啥回来首页了，点回去");
+                    jdOpenActivityPage();
+                    continue;
+                }
+                randomSleep(1000);
+                //判定微信页面,兼容小程序任务
+                if (textContains("微信").exists()) {
+                    log("完成小程序任务，跳回京东活动页");
+                    launch("com.jingdong.app.mall");
+                    randomSleep(2000);
+                    continue;
+                }
+                //其他：未在活动列表页则再返回上一级（部分任务需二次返回）
+                log("没有返回任务页，再次返回上一级");
+                back();
+                randomSleep(500);
+            }
         }
     });
     toastLog("【京东】任务已完成");
     log("=========================");
+}
+
+/**
+ * 京东-打开活动页
+ */
+function jdOpenActivityPage() {
+    var activityButton = "浮层活动";
+    if (!descContains(activityButton).exists()) {
+        alert("温馨提示", "首页没有找到【全民营业】活动入口浮层\n请手动打开活动页，进入后脚本会自动执行");
+    } else {
+        clickContent(activityButton, "desc");
+        log("正在打开【京东】活动页");
+        randomSleep(300);
+        //部分账号首页的活动浮层默认是收起状态，再次点击(有时候会点击失败，所以用while)
+        while (descContains(activityButton).exists()) {
+            clickContent(activityButton, "desc");
+            randomSleep(300);
+        }
+        toastLog("若页面有弹窗，请手动关闭");
+        randomSleep(5000);
+    }
+    //收两次金币
+    jdcollectCoins();
+    randomSleep(500);
+    jdcollectCoins();
+    toastLog("收取金币成功");
+    randomSleep(1000);
+    text("领金币").waitFor();
+    clickContent("领金币");
+    log("展开任务列表");
+    randomSleep(1000);
+    //未打开任务列表则再次尝试点击
+    while (!textContains("去完成").exists() && !textContains("已完成").exists()) {
+        if (!textContains("领金币").exists()) {
+            back();
+            randomSleep(1000);
+            continue;
+        }
+        log("没点到，再点一下");
+        clickContent("领金币");
+        randomSleep(300);
+    }
+}
+
+/**
+ * 京东-收取金币
+ */
+function jdcollectCoins() {
+    var collectButton = text("收取金币").findOnce();
+    collectButton && jdClickButton(collectButton);
 }
 
 /**
@@ -393,12 +434,12 @@ function jdBrowsingOrShopping(taskName) {
     log("进入【" + taskName + "】任务");
     toastLog("日志窗口已隐藏");
     console.hide();
-    randomSleep(200 * speed);
+    randomSleep(200);
     for (i = 0; i < 6; i++) {
         if (i == 4) {
-            toastLog(swipeTips);
+            log(swipeTips);
             randomSwipe();
-            randomSleep(500 * speed);
+            randomSleep(500);
         }
         var price = textContains("¥").findOnce(i);
         var goods = price.parent().parent();
@@ -406,38 +447,30 @@ function jdBrowsingOrShopping(taskName) {
         log(taskName + "第" + (i + 1) + "个商品" + suffix);
         if (taskName == "浏览") {
             jdClickButton(goods);
-            randomSleep(1000 * speed);
+            randomSleep(1000);
             //若未点击成功，则再次点击
             while (textContains("任意浏览").exists()) {
                 jdClickButton(goods);
-                randomSleep(300 * speed);
+                randomSleep(300);
             }
-            randomSleep(3000 * speed);
+            randomSleep(3000);
             //商品页可能会有缺货弹窗，点掉
             if (textContains("取消").exists()) {
                 clickContent("取消");
-                randomSleep(500 * speed);
+                randomSleep(500);
             }
-            toastLog(swipeTips);
+            log(swipeTips);
             randomSwipe();
-            randomSleep(1000 * speed);
+            randomSleep(1000);
             back();
-            randomSleep(1500 * speed);
+            randomSleep(1500);
         } else if (taskName == "加购") {
             var shopping = goods.child(goods.child(0).text() == "已加购" ? 5 : 4);
             click(shopping.bounds().centerX(), shopping.bounds().centerY());
-            randomSleep(2500 * speed);
+            randomSleep(2500);
         }
     }
     console.show();
-}
-
-/**
- * 京东-收取金币
- */
-function jdcollectCoins() {
-    var collectButton = text("收取金币").findOnce();
-    collectButton && jdClickButton(collectButton);
 }
 
 /**
@@ -512,7 +545,7 @@ function jdClickButton(button) {
  * @param time
  */
 function randomSleep(time) {
-    sleep(ramdomByFloat(time));
+    sleep(ramdomByFloat(time) * speed);
 }
 
 /**
