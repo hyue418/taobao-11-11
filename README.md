@@ -1,4 +1,8 @@
 # 淘宝+京东双十一活动脚本
+[![GitHub license](https://img.shields.io/github/license/hyue418/taobao-11-11.svg?style=flat-square&color=4285dd&logo=github)](https://github.com/hyue418/taobao-11-11)
+[![GitHub Star](https://img.shields.io/github/stars/hyue418/taobao-11-11.svg?style=flat-square&label=Star&color=4285dd&logo=github)](https://github.com/hyue418/taobao-11-11)
+[![GitHub Fork](https://img.shields.io/github/forks/hyue418/taobao-11-11.svg?style=flat-square&label=Fork&color=4285dd&logo=github)](https://github.com/hyue418/taobao-11-11)
+[![](https://data.jsdelivr.com/v1/package/gh/hyue418/taobao-11-11/badge)](https://www.jsdelivr.com/package/gh/hyue418/taobao-11-11)
 ## 支持淘宝\支付宝\京东双11任务自动执行
 ### 淘宝
 * 支持自动【签到】
